@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LSPD - Výběr formuláře</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0e1a2b;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #1f2f4a;
+      padding: 40px;
+      border-radius: 16px;
+      border: 2px solid #f1c40f;
+      max-width: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .form-section {
+      flex: 1;
+    }
+
+    h1 {
+      color: #f1c40f;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #f1c40f;
+      color: #0e1a2b;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .button:hover {
+      background-color: #d4ac0d;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .side-image {
+      width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Přihlašovací sekce -->
+  <div class="container" id="loginContainer">
+    <!-- Levý obrázek -->
+    <img class="side-image" src="https://cdn.discordapp.com/attachments/990340433295073312/1387773856755880087/lspd.png?ex=685e909f&is=685d3f1f&hm=b50a6c29e525c28e9dc59fac3308501f41f7d792b0eb5e7fbc67e3d815f48b42&" alt="LSPD logo">
+
+    <!-- Formulář -->
+    <div class="form-section">
+      <h1>Zadejte přístupový kód</h1>
+      <input type="password" id="accessCode" placeholder="Váš přístupový kód">
+      <br><br>
+      <button class="button" onclick="checkAccess()">Pokračovat</button>
+      <p id="error"></p>
+    </div>
+
+    <!-- Pravý obrázek -->
+    <img class="side-image" src="https://cdn.discordapp.com/attachments/990340433295073312/1387773856755880087/lspd.png?ex=685e909f&is=685d3f1f&hm=b50a6c29e525c28e9dc59fac3308501f41f7d792b0eb5e7fbc67e3d815f48b42&" alt="LSPD logo">
+  </div>
+
+  <!-- Hlavní obsah po přihlášení -->
+  <div class="container" id="mainContainer" style="display: none; flex-direction: column;">
+    <h1>Vyberte typ hlášení</h1>
+    <a href="https://pribasek.github.io/pomocnik/" class="button">Incident Report</a>
+    <a href="https://pribasek.github.io/traffic-stops/" class="button">Traffic Stop</a>
+  </div>
+
+  <script>
+    // Seznam platných přístupových kódů
+    const validCodes = [
+      "1056", "1057", "1058", "1059", "1060", "1061", "1062", "1063", "1064", "1065",
+      "1066", "1067", "1068", "1069", "1070", "1071", "1072", "1073", "1074", "1075",
+      "1076", "1077", "1078", "1079", "1080", "1081", "1082", "1083", "1084", "1085",
+      "1086", "1087", "1088", "1089", "1090", "1091", "1092", "1093", "1094", "1095",
+      "1096", "1097", "1098", "1099", "1100", "1101", "1102", "1103", "1104", "1105",
+      "1106", "1107", "1108", "1109", "1110", "1111", "1112", "1113", "1114", "1115",
+      "1116", "1117", "1118", "1119", "1120", "1121", "1122", "1123", "1124", "1125",
+      "1126", "1127", "1128", "1129", "1130", "1131", "1132", "1133", "1134", "1135",
+      "1136", "1137", "1138", "1139", "1140", "1141", "1142", "1143", "1144", "1145",
+      "1146", "1147", "1148", "1149", "1150", "1151", "1152", "1153", "1154", "1155",
+      "1156", "1157", "1158", "1159", "1160", "1161", "1162", "1163", "1164", "1165",
+      "1166", "1167", "1168", "1169", "1170", "1171", "1172", "1173", "1174", "1175",
+      "1176", "1177", "1178", "1179", "1180", "1181", "1182", "1183", "1184", "1185",
+      "1186", "1187", "1188", "1189", "1190", "1191", "1192", "1193", "1194", "1195",
+      "1196", "1197", "1198", "1199", "1200", "1201", "1202", "1203", "1204", "1205",
+      "1206", "1207", "1208", "1209", "1210", "1211", "1212", "1213", "1214", "1215",
+      "1216", "1217", "1218", "1219", "1220", "1221", "1222", "1223", "1224", "1225",
+      "1226", "1227", "1228", "1229", "1230", "1231", "1232", "1233", "1234", "1235",
+      "1236", "1237", "1238", "1239", "1240", "1241", "1242", "1243", "1244", "1245",
+      "1246", "1247", "1248", "1249", "1250", "1251", "1252", "1253", "1254", "1255",
+      "1256", "1257", "1258", "1259", "1260", "1261", "1262", "Staff-1", "Staff-2", "Staff-3"
+    ];
+
+    // Webhook URL pro logování do Discordu
+    const webhookURL = "https://discord.com/api/webhooks/1387770999344467989/ktP9Ez9jbgjZcaSIgRBZMkVbheQBrBjdnF3Csv0iI3L0E6TPgiI4JtoAHylSFKMdb6zm";
+
+    function checkAccess() {
+      const code = document.getElementById("accessCode").value.trim();
+      const errorEl = document.getElementById("error");
+
+      if (validCodes.includes(code)) {
+        logAccess(code);
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("mainContainer").style.display = "flex";
+      } else {
+        errorEl.innerText = "Neplatný přístupový kód!";
+      }
+    }
+
+    function logAccess(code) {
+      const timestamp = new Date().toLocaleString("cs-CZ");
+      const message = {
+        content: `🔐 Přístupový kód použit: **${code}**\n🕒 Čas: ${timestamp}`
+      };
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message)
+      }).catch(err => {
+        console.error("Chyba při odesílání na Discord:", err);
+      });
+    }
+  </script>
+</body>
+</html>
