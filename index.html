@@ -110,34 +110,16 @@
       "1256", "1257", "1258", "1259", "1260", "1261", "1262", "Staff-1", "Staff-2", "Staff-3"
     ];
 
-    const webhookURL = "https://discord.com/api/webhooks/1387770999344467989/ktP9Ez9jbgjZcaSIgRBZMkVbheQBrBjdnF3Csv0iI3L0E6TPgiI4JtoAHylSFKMdb6zm";
-
     function checkAccess() {
       const code = document.getElementById("accessCode").value.trim();
       const errorEl = document.getElementById("error");
 
       if (validCodes.includes(code)) {
-        logAccess(code);
         document.getElementById("loginContainer").style.display = "none";
         document.getElementById("mainContainer").style.display = "flex";
       } else {
         errorEl.innerText = "Neplatný přístupový kód!";
       }
-    }
-
-    function logAccess(code) {
-      const timestamp = new Date().toLocaleString("cs-CZ");
-      const message = {
-        content: `🔐 Přístupový kód použit: **${code}**\n🕒 Čas: ${timestamp}`
-      };
-
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(message)
-      }).catch(err => {
-        console.error("Chyba při odesílání na Discord:", err);
-      });
     }
   </script>
 </body>
