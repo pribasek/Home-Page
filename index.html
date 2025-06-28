@@ -26,13 +26,9 @@
       border: 2px solid #f1c40f;
       max-width: 700px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
       gap: 20px;
-    }
-
-    .form-section {
-      flex: 1;
     }
 
     h1 {
@@ -70,41 +66,26 @@
       color: red;
       margin-top: 10px;
     }
-
-    .side-image {
-      width: 100px;
-      height: auto;
-    }
   </style>
 </head>
 <body>
   <!-- Přihlašovací sekce -->
   <div class="container" id="loginContainer">
-    <!-- Levý obrázek -->
-    <img class="side-image" src="https://cdn.discordapp.com/attachments/990340433295073312/1387773856755880087/lspd.png?ex=685e909f&is=685d3f1f&hm=b50a6c29e525c28e9dc59fac3308501f41f7d792b0eb5e7fbc67e3d815f48b42&" alt="LSPD logo">
-
-    <!-- Formulář -->
-    <div class="form-section">
-      <h1>Zadejte přístupový kód</h1>
-      <input type="password" id="accessCode" placeholder="Váš přístupový kód">
-      <br><br>
-      <button class="button" onclick="checkAccess()">Pokračovat</button>
-      <p id="error"></p>
-    </div>
-
-    <!-- Pravý obrázek -->
-    <img class="side-image" src="https://cdn.discordapp.com/attachments/990340433295073312/1387773856755880087/lspd.png?ex=685e909f&is=685d3f1f&hm=b50a6c29e525c28e9dc59fac3308501f41f7d792b0eb5e7fbc67e3d815f48b42&" alt="LSPD logo">
+    <h1>Zadejte přístupový kód</h1>
+    <input type="password" id="accessCode" placeholder="Váš přístupový kód">
+    <br><br>
+    <button class="button" onclick="checkAccess()">Pokračovat</button>
+    <p id="error"></p>
   </div>
 
   <!-- Hlavní obsah po přihlášení -->
-  <div class="container" id="mainContainer" style="display: none; flex-direction: column;">
+  <div class="container" id="mainContainer" style="display: none;">
     <h1>Vyberte typ hlášení</h1>
     <a href="https://pribasek.github.io/pomocnik/" class="button">Incident Report</a>
     <a href="https://pribasek.github.io/traffic-stops/" class="button">Traffic Stop</a>
   </div>
 
   <script>
-    // Seznam platných přístupových kódů
     const validCodes = [
       "1056", "1057", "1058", "1059", "1060", "1061", "1062", "1063", "1064", "1065",
       "1066", "1067", "1068", "1069", "1070", "1071", "1072", "1073", "1074", "1075",
@@ -129,7 +110,6 @@
       "1256", "1257", "1258", "1259", "1260", "1261", "1262", "Staff-1", "Staff-2", "Staff-3"
     ];
 
-    // Webhook URL pro logování do Discordu
     const webhookURL = "https://discord.com/api/webhooks/1387770999344467989/ktP9Ez9jbgjZcaSIgRBZMkVbheQBrBjdnF3Csv0iI3L0E6TPgiI4JtoAHylSFKMdb6zm";
 
     function checkAccess() {
